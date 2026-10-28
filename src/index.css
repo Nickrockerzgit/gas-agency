@@ -1,0 +1,105 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/manrope";
+
+/* Commercial Energy Infrastructure design system: Oxford Blue 20% / Signal Red 10% / White 70% */
+:root {
+  --background: #ffffff;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+  --primary: #002147;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f7fa;
+  --secondary-foreground: #002147;
+  --muted: #f4f7fa;
+  --muted-foreground: #475569;
+  --accent: #f4f7fa;
+  --accent-foreground: #002147;
+  --destructive: #c8102e;
+  --border: rgb(0 33 71 / 0.12);
+  --input: rgb(0 33 71 / 0.18);
+  --ring: #002147;
+  --radius: 0.5rem;
+  --signal: #c8102e;
+  --signal-dark: #a60d26;
+  --tonal: #f4f7fa;
+  --line: rgb(0 33 71 / 0.12);
+}
+
+@theme inline {
+  --font-sans: "Manrope Variable", "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-signal: var(--signal);
+  --color-signal-dark: var(--signal-dark);
+  --color-tonal: var(--tonal);
+  --color-line: var(--line);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-variant-numeric: tabular-nums;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-primary;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  section[id] {
+    scroll-margin-top: 7rem;
+  }
+  :focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
