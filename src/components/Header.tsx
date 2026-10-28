@@ -3,6 +3,7 @@ import { BadgeCheck, Menu, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { company } from "@/data/company";
+import { getLenis } from "@/lib/smoothScroll";
 import { cn } from "@/lib/utils";
 import { CallButton } from "./ContactAction";
 
@@ -94,7 +95,15 @@ export function Header() {
           >
             <User className="size-[18px]" aria-hidden="true" />
           </a>
-          <Sheet open={open} onOpenChange={setOpen}>
+          <Sheet
+            open={open}
+            onOpenChange={(o) => {
+              setOpen(o);
+              // Keep the page still behind the open menu.
+              if (o) getLenis()?.stop();
+              else getLenis()?.start();
+            }}
+          >
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="lg:hidden" aria-label="Open menu">
                 <Menu />

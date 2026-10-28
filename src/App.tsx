@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { MotionConfig } from "motion/react";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
@@ -9,8 +10,11 @@ import { Pricing } from "./components/Pricing";
 import { Customers, Steps } from "./components/Process";
 import { Products } from "./components/Products";
 import { Safety } from "./components/Safety";
+import { TruckDelivery } from "./components/TruckDelivery";
+import { initSmoothScroll } from "./lib/smoothScroll";
 
 export default function App() {
+  useEffect(() => initSmoothScroll(), []);
   return (
     <MotionConfig reducedMotion="user">
       <a
@@ -26,6 +30,7 @@ export default function App() {
           <Hero />
           <About />
           <Products />
+          <TruckDelivery />
           <Pricing />
           <Customers />
           <Steps />

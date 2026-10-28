@@ -1,9 +1,11 @@
+import { useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { ArrowDown, CircleCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { company, emergencyHelpline } from "@/data/company";
 import { publishedProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/smoothScroll";
 import { CallButton, LinkButton } from "./ContactAction";
 import { Container } from "./Section";
 
@@ -16,15 +18,49 @@ function Fact({ label, value, signal }: { label: string; value: string; signal?:
   );
 }
 
+/**
+ * Muted, looping turntable video on a pure-white background.
+ * Desktop: sits behind the hero content, anchored to the right so the cylinders stay on the right side.
+ * Mobile: shown below the text. With reduced motion it stays on the poster frame.
+ */
+function HeroVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = true; // React does not render the muted attribute into server HTML
+    if (prefersReducedMotion()) v.pause();
+    else v.play().catch(() => {});
+  }, []);
+  return (
+    <div>
+      <video
+        ref={ref}
+        className="pointer-events-none block aspect-video w-full mix-blend-multiply lg:absolute lg:top-1/2 lg:left-[33%] lg:z-0 lg:aspect-auto lg:h-[112%] lg:w-auto lg:max-w-none lg:-translate-y-1/2"
+        src="/video/hero-v2.mp4"
+        poster="/img/hero-poster-v2.webp"
+        width={1280}
+        height={720}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label="Rotating view of 5 kg, 19 kg and 47.5 kg LPG cylinders with a hand trolley"
+      />
+    </div>
+  );
+}
+
 export function Hero() {
   const area = company.serviceArea ? ` in ${company.serviceArea}` : "";
   const sizes = publishedProducts.map((p) => p.capacityKg);
   const range = sizes.length > 1 ? `${Math.min(...sizes)} kg to ${Math.max(...sizes)} kg` : `${sizes[0]} kg`;
   return (
     <section id="home" aria-labelledby="hero-title" className="overflow-x-clip border-b border-line bg-white py-12 md:py-16">
-      <Container className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+      <Container className="relative grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
         {/* Content is always visible; motion only nudges position (no opacity gate). */}
-        <motion.div className="space-y-6 lg:col-span-6" initial={{ y: 14 }} animate={{ y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
+        <motion.div className="relative z-10 space-y-6 lg:col-span-6" initial={{ y: 14 }} animate={{ y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
           <Badge variant="tonal" className="rounded-full border-primary/15 bg-tonal px-3 py-1 font-mono text-xs tracking-wider">
             <span className="size-2 rounded-full bg-signal" aria-hidden="true" /> Commercial LPG Supply
           </Badge>
@@ -50,15 +86,8 @@ export function Hero() {
           </div>
         </motion.div>
 
-        <div className="flex justify-center lg:col-span-6">
-          <img
-            src="/img/showroom.webp"
-            alt="Munna United commercial LPG showroom with 19 kg and 47.5 kg cylinders outside"
-            width={1400}
-            height={746}
-            fetchPriority="high"
-            className="h-auto w-full max-w-2xl lg:w-[112%] lg:max-w-none"
-          />
+        <div className="lg:col-span-6">
+          <HeroVideo />
         </div>
       </Container>
     </section>

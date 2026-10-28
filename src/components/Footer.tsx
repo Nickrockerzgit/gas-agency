@@ -23,7 +23,9 @@ export function Footer() {
   const noContact = !company.phone && !company.email && !company.hours;
   return (
     <>
-      <footer className="bg-primary text-white">
+      <footer
+        className="relative bg-[#01244c] bg-[url('/img/footer-skyline.webp')] bg-[length:auto_300px] bg-[position:37%_bottom] bg-no-repeat text-white md:bg-[length:100%_auto] md:bg-bottom"
+      >
         <Container className="grid gap-10 py-12 text-sm md:grid-cols-2 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-5">
             <div>
@@ -84,16 +86,15 @@ export function Footer() {
         </Container>
 
         <Container>
-          <div className="border-t border-white/10 pt-8">
-            <div className="rounded-lg border border-white/10 bg-black/25 px-5 py-4 text-center">
-              <p className={`font-mono text-[11px] font-bold tracking-wider uppercase ${accent}`}>Statutory Regulatory Notice</p>
-              <p className="mx-auto mt-2 max-w-3xl text-[13px] leading-relaxed text-white/85">
-                This is not the official website of Indian Oil Corporation Limited. This website is owned and operated by {company.legalName}.
-                Product variants, rates and availability must be confirmed with the agency.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col items-start justify-between gap-3 py-6 text-xs font-bold text-white/85 sm:flex-row sm:items-center">
+          <div className="border-t border-white/10" aria-hidden="true" />
+        </Container>
+
+        {/* Leaves the skyline visible between the notice and the legal bar. */}
+        <div className="h-28 md:h-32 lg:h-36" aria-hidden="true" />
+
+        <div className="bg-gradient-to-t from-[#01244c]/95 via-[#01244c]/70 to-transparent pt-10">
+        <Container>
+          <div className="flex flex-col items-start justify-between gap-3 py-6 text-xs font-bold text-white/90 sm:flex-row sm:items-center">
             <p>
               © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {company.legalName}. All rights reserved.
             </p>
@@ -116,6 +117,7 @@ export function Footer() {
             </ul>
           </div>
         </Container>
+        </div>
       </footer>
       <MobileBar />
     </>
