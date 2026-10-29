@@ -1,124 +1,141 @@
 import type { ReactNode } from "react";
-import { Building2, Clock, Mail, MessageSquare, Phone } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Clock, Info, Mail, MapPin, Navigation, Phone, Store } from "lucide-react";
 import { company } from "@/data/company";
 import { telHref } from "@/lib/links";
-import { cn } from "@/lib/utils";
-import { CallButton, DirectionsButton, WhatsAppButton } from "./ContactAction";
-import { Section, SectionHeader } from "./Section";
+import { Section } from "./Section";
 
-function Tile({ label, icon, children, className }: { label: string; icon?: ReactNode; children: ReactNode; className?: string }) {
+function DeskRow({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
   return (
-    <div className={cn("rounded-lg border border-line bg-tonal p-4", className)}>
-      <p className="font-mono text-[10px] font-semibold tracking-wider text-primary/70 uppercase">{label}</p>
-      <div className="mt-2 flex items-start gap-2 text-[15px] font-bold text-primary">
-        {icon && (
-          <span className="mt-0.5 shrink-0 text-signal" aria-hidden="true">
-            {icon}
-          </span>
-        )}
-        <div className="min-w-0 break-words">{children}</div>
+    <li className="flex items-start gap-5 border-b border-line py-5 first:pt-0">
+      <span className="mt-0.5 shrink-0 text-signal" aria-hidden="true">
+        {icon}
+      </span>
+      <div>
+        <p className="text-lg font-bold text-primary">{label}</p>
+        <div className="text-base text-foreground/60">{children}</div>
       </div>
-    </div>
+    </li>
   );
 }
 
-const Pending = () => <span className="font-semibold text-primary/60">To be confirmed</span>;
+const ComingSoon = () => <span>Details coming soon</span>;
 
-function Row({ label, value }: { label: string; value: string }) {
+function Detail({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-line py-1.5 font-mono text-[11px]">
-      <dt className="text-foreground/70">{label}</dt>
-      <dd className="text-right font-bold text-primary">{value}</dd>
+    <div className="min-w-0">
+      <dt className="font-mono text-xs font-semibold tracking-[0.18em] text-foreground/60 uppercase">{label}</dt>
+      <dd className="mt-2 text-xl font-bold break-words text-primary">{value}</dd>
     </div>
   );
 }
 
 export function Contact() {
-  return (
-    <Section id="contact" titleId="contact-title" tone="tonal">
-      <SectionHeader
-        id="contact-title"
-        eyebrow="Commercial Support Desk"
-        title="Let's discuss your LPG requirement"
-        description="Reach out directly to our commercial booking desk for live availability and supply schedules."
-      />
-      <div className="grid items-start gap-6 lg:grid-cols-12">
-        <Card className="gap-6 p-6 shadow-sm md:p-8 lg:col-span-8">
-          <div className="flex flex-wrap items-start justify-between gap-3 border-b border-line pb-5">
-            <div>
-              <h3 className="text-xl font-bold">{company.legalName.replace(" Private Limited", " Pvt. Ltd.")}</h3>
-              <p className="font-mono text-[11px] text-foreground/70">Commercial LPG Booking Desk</p>
-            </div>
-            <span className="rounded border border-line bg-tonal px-2.5 py-1 font-mono text-[11px] font-bold text-primary">Commercial LPG</span>
-          </div>
+  const phone = company.phone ?? company.whatsapp;
+  const address = company.addressLines?.map((line, i, all) => {
+    const text = line.replace(" - ", " – ");
+    return i < all.length - 1 && !text.endsWith(",") ? `${text},` : text;
+  });
 
-          <dl className="grid gap-4 md:grid-cols-2">
-            <Tile label="Primary phone line" icon={<Phone className="size-4" />}>
-              {company.phone ? (
-                <a href={telHref(company.phone)} className="hover:underline">
-                  {company.phone}
+  return (
+    <Section id="contact" titleId="contact-title" tone="white">
+      <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-6">
+          <p className="flex items-center gap-4 font-mono text-xs font-bold tracking-[0.2em] text-signal uppercase">
+            Contact Munna United
+            <span className="h-0.5 w-10 bg-signal" aria-hidden="true" />
+          </p>
+          <h2 id="contact-title" className="mt-4 text-4xl leading-[1.05] font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            Let’s discuss your LPG requirements.
+          </h2>
+          <p className="mt-4 text-lg text-foreground/60">Commercial LPG enquiries for businesses in Hyderabad.</p>
+
+          <h3 className="mt-10 text-2xl font-extrabold sm:text-3xl">Commercial LPG enquiry desk</h3>
+          <ul className="mt-6">
+            <DeskRow icon={<Phone className="size-7" />} label="Phone & WhatsApp">
+              {phone ? (
+                <a href={telHref(phone)} className="hover:underline">
+                  {phone}
                 </a>
               ) : (
-                <Pending />
+                <ComingSoon />
               )}
-            </Tile>
-            <Tile label="Instant business messaging" icon={<MessageSquare className="size-4" />}>
-              {company.whatsapp ? company.whatsapp : <Pending />}
-            </Tile>
-            <Tile label="Electronic mail orders" icon={<Mail className="size-4" />}>
+            </DeskRow>
+            <DeskRow icon={<Mail className="size-7" />} label="Email">
               {company.email ? (
                 <a href={`mailto:${company.email}`} className="hover:underline">
                   {company.email}
                 </a>
               ) : (
-                <Pending />
+                <ComingSoon />
               )}
-            </Tile>
-            <Tile label="Operating dispatch hours" icon={<Clock className="size-4" />}>
-              {company.hours ?? <Pending />}
-            </Tile>
-            <Tile label="Registered office address" className="md:col-span-2">
-              {company.addressLines ? company.addressLines.join(", ") : <Pending />}
-              <p className="mt-1 text-xs font-normal text-foreground/70">
-                Service areas: {company.serviceArea ? `${company.serviceArea}${company.coverageNote ? ` — ${company.coverageNote}` : ""}` : "to be confirmed"}
-              </p>
-            </Tile>
-          </dl>
+            </DeskRow>
+            <DeskRow icon={<Clock className="size-7" />} label="Office hours">
+              {company.hours ?? <ComingSoon />}
+            </DeskRow>
+          </ul>
 
-          <div className="flex flex-wrap gap-3">
-            <CallButton size="sm" />
-            <WhatsAppButton variant="default" size="sm" />
-            <DirectionsButton size="sm" />
+          <div className="mt-2 flex items-start gap-4 rounded-xl bg-[#e8f1fc] px-5 py-4">
+            <Info className="mt-1 size-6 shrink-0 text-[#1d6fdc]" aria-hidden="true" />
+            <div>
+              <p className="font-bold text-primary">For your enquiry</p>
+              <p className="text-[15px] text-foreground/70">Keep your cylinder size, quantity and delivery location ready.</p>
+            </div>
           </div>
-          <p className="text-xs text-foreground/70">
-            Opening WhatsApp or placing a call is an enquiry only; availability and supply are confirmed by our team.
-          </p>
-        </Card>
+        </div>
 
-        <Card className="gap-4 p-5 shadow-sm lg:col-span-4">
-          <p className="flex items-center justify-between border-b border-line pb-3 font-mono text-[11px] font-bold tracking-wider text-primary uppercase">
-            Business verification
-            <span className="size-2.5 rounded-full bg-primary" aria-hidden="true" />
-          </p>
-          <div className="rounded-lg border border-line bg-tonal p-4">
-            <p className="flex items-center gap-2 text-sm font-bold text-primary">
-              <Building2 className="size-4 text-signal" aria-hidden="true" /> Registered Office
-            </p>
-            <p className="mt-2 text-[13px] leading-5 text-foreground/75">
-              Our registered office is in Hyderabad, Telangana. Call or message us before visiting so our team can confirm the visit.
-            </p>
+        <div className="flex flex-col overflow-hidden rounded-2xl bg-[#012a52] text-white lg:col-span-6">
+          <div className="px-8 pt-10 pb-8 sm:px-10">
+            <MapPin className="size-10 fill-signal text-signal" aria-hidden="true" />
+            <h3 className="mt-3 text-3xl font-extrabold text-white sm:text-4xl">Visit our registered office</h3>
+            {address && (
+              <address className="mt-6 text-base leading-8 text-white/90 not-italic sm:text-lg xl:text-xl xl:leading-9">
+                {address.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+            )}
+            <hr className="mt-6 border-white/20" />
+            <p className="mt-5 text-base text-white/80">Please confirm your visit with our team in advance.</p>
+            {company.directionsUrl && (
+              <a
+                href={company.directionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-3 rounded-lg border-2 border-white px-6 py-3.5 text-lg font-bold text-white transition-colors hover:bg-white hover:text-primary"
+              >
+                <Navigation className="size-5 fill-current" aria-hidden="true" /> Get Directions
+              </a>
+            )}
           </div>
-          <dl>
-            <Row label="Pincode Check:" value="Available via Phone" />
-            {company.cin && <Row label="CIN:" value={company.cin} />}
-            {company.gstin && <Row label="GSTIN:" value={company.gstin} />}
-          </dl>
-          <div className="rounded-lg bg-primary p-5 text-center">
-            <p className="font-mono text-[11px] text-white">Commercial supply only</p>
-            <p className="mt-1 font-mono text-xs font-bold tracking-wider text-[#ff8a9a] uppercase">No domestic sales</p>
-          </div>
-        </Card>
+          <img
+            src="/img/contact-depot.webp"
+            alt="Illustration of the LPG depot with a warehouse, storage tanks and a cylinder delivery truck"
+            width={658}
+            height={213}
+            loading="lazy"
+            className="mt-auto block h-auto w-full"
+          />
+        </div>
+      </div>
+
+      <div className="mt-10 rounded-2xl bg-[#e8f1fc] px-6 py-8 sm:px-8">
+        <p className="font-mono text-xs font-semibold tracking-[0.2em] text-foreground/60 uppercase">Registered business details</p>
+        <p className="mt-3 text-2xl font-extrabold text-primary sm:text-3xl">{company.legalName}</p>
+        <dl className="mt-6 grid gap-6 sm:grid-cols-[auto_1px_auto] sm:justify-start sm:gap-10">
+          {company.cin && <Detail label="CIN" value={company.cin} />}
+          {company.cin && company.gstin && <div className="hidden bg-line sm:block" aria-hidden="true" />}
+          {company.gstin && <Detail label="GSTIN" value={company.gstin} />}
+        </dl>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+        <p className="flex items-center gap-3 font-bold text-primary">
+          <Store className="size-6 text-signal" aria-hidden="true" /> Commercial supply only
+        </p>
+        <span className="hidden h-6 w-px bg-line sm:block" aria-hidden="true" />
+        <p className="text-sm text-foreground/60">Availability, rates and supply arrangements are confirmed by our team.</p>
       </div>
     </Section>
   );
