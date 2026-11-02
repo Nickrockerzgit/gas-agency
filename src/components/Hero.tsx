@@ -73,12 +73,7 @@ export function Hero() {
           </p>
           <div className="flex flex-col items-stretch gap-4 pt-2 sm:flex-row sm:items-center">
             <PlayBadge className="justify-center shadow-md" />
-            <LinkButton
-              href="#cylinders"
-              variant="outline"
-              size="lg"
-              className="transition-colors hover:border-signal hover:bg-signal hover:text-white"
-            >
+            <LinkButton href="#cylinders" variant="signal" size="lg" className="shadow-md">
               Explore Cylinders <ArrowDown />
             </LinkButton>
           </div>
