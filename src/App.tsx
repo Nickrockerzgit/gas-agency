@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { MotionConfig } from "motion/react";
 import { About } from "./components/About";
+import { AppShowcase } from "./components/AppShowcase";
 import { Contact } from "./components/Contact";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
@@ -32,6 +33,7 @@ export default function App() {
           <Products />
           <TruckDelivery />
           <Pricing />
+          <AppShowcase />
           <Customers />
           <Steps />
           <Safety />

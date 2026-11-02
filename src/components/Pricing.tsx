@@ -7,6 +7,7 @@ import { formatDate, formatInr, rateState, type RateState } from "@/lib/rates";
 import { useToday } from "@/lib/today";
 import { cn } from "@/lib/utils";
 import { CallButton } from "./ContactAction";
+import { Rise } from "./Rise";
 import { Section, SectionHeader } from "./Section";
 
 /** Short descriptor under the size, as in the rate registry. */
@@ -130,16 +131,17 @@ export function Pricing() {
         title="Clear, dated pricing"
         description="Check the published rate details or contact our team for the latest applicable MRP."
       />
-      <div className="grid items-start gap-8 lg:grid-cols-12">
-        <Card className="gap-0 overflow-hidden py-0 shadow-sm lg:col-span-8">
+      <div className="grid gap-8 lg:grid-cols-12">
+        <Rise from={52} exit={-18} className="flex lg:col-span-8">
+        <Card className="w-full gap-0 overflow-hidden py-0 shadow-sm">
           <div className="space-y-1 border-b border-line p-4">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-bold text-primary">Commercial Tariff Registry</span>
-              <span className="rounded border border-line bg-tonal px-2 py-0.5 font-mono text-xs text-primary">
+              <span className="text-xl font-extrabold tracking-tight text-primary">Commercial Tariff Registry</span>
+              <span className="rounded-full border border-line bg-tonal px-3 py-0.5 text-xs font-semibold text-primary">
                 {zone ?? "Rate zone to be confirmed"}
               </span>
             </div>
-            <p className="font-mono text-xs text-primary/70">
+            <p className="text-sm text-foreground/70">
               Effective:{" "}
               <span className="font-bold text-primary">{effectiveDate ? formatDate(effectiveDate) : "Pending verification"}</span>
             </p>
@@ -192,8 +194,10 @@ export function Pricing() {
             Confirm the applicable rate, price basis and availability before placing an order.
           </p>
         </Card>
+        </Rise>
 
-        <Card className="gap-4 p-5 shadow-sm lg:col-span-4">
+        <Rise from={120} exit={-30} className="flex lg:col-span-4">
+        <Card className="w-full gap-4 p-5 shadow-sm">
           <p className="flex items-center gap-2 border-b border-line pb-2 font-mono text-xs font-bold tracking-wider text-primary uppercase">
             <Hourglass className="size-4 text-signal" aria-hidden="true" /> Regulatory rate cycle
           </p>
@@ -206,7 +210,7 @@ export function Pricing() {
               Rates are subject to monthly revision. Published rates are updated once the new rate list has been verified.
             </p>
           </div>
-          <dl className="space-y-2 text-xs">
+          <dl className="mt-auto space-y-2 text-xs">
             {[
               ["Revision Cycle:", "1st of Every Calendar Month", false],
               ["Invoicing Basis:", "Confirmed on enquiry", false],
@@ -220,6 +224,7 @@ export function Pricing() {
           </dl>
           <CallButton label="Inquire Today's Rate" variant="default" className="w-full" />
         </Card>
+        </Rise>
       </div>
     </Section>
   );

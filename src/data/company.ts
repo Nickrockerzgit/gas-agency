@@ -28,9 +28,9 @@ export const company: Company = {
   gstin: "36AASCM8686R1ZY",
   // Owner stated IOCL registration; confirm exact wording before launch.
   affiliation: "Registered Distributor with IOCL",
-  phone: null,
+  phone: "+91 72073 94242",
   whatsapp: null,
-  email: null,
+  email: "support@munnauniteddistributions.com",
   addressLines: [
     "3rd Floor, Hero Building, Tilak Nagar Road",
     "New Nallakunta, Musheerabad",
