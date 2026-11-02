@@ -1,9 +1,10 @@
-import { ArrowRight, CircleAlert } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { products, type Product } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { WhatsAppButton } from "./ContactAction";
 import { CylinderIcon } from "./CylinderIcon";
+import { Rise, stair } from "./Rise";
 import { Section, SectionHeader } from "./Section";
 
 const badgeTone = {
@@ -92,16 +93,12 @@ export function Products() {
         description="Explore available sizes and enquire about the right product for your requirement."
       />
       <ul className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-5">
-        {products.map((p) => (
-          <li key={p.id} className="flex">
+        {products.map((p, i) => (
+          <Rise key={p.id} as="li" className="flex" {...stair(i)}>
             <ProductCard p={p} />
-          </li>
+          </Rise>
         ))}
       </ul>
-      <p className="mt-10 flex items-center justify-center gap-2 rounded-lg border border-line bg-tonal p-4 text-center text-xs font-semibold text-primary">
-        <CircleAlert className="size-4 shrink-0 text-signal" aria-hidden="true" />
-        Product variants and availability are subject to confirmation.
-      </p>
     </Section>
   );
 }

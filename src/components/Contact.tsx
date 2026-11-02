@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Clock, Info, Mail, MapPin, Navigation, Phone, Store } from "lucide-react";
 import { company } from "@/data/company";
 import { telHref } from "@/lib/links";
+import { Rise } from "./Rise";
 import { Section } from "./Section";
 
 function DeskRow({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
@@ -20,15 +21,6 @@ function DeskRow({ icon, label, children }: { icon: ReactNode; label: string; ch
 
 const ComingSoon = () => <span>Details coming soon</span>;
 
-function Detail({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="min-w-0">
-      <dt className="font-mono text-xs font-semibold tracking-[0.18em] text-foreground/60 uppercase">{label}</dt>
-      <dd className="mt-2 text-xl font-bold break-words text-primary">{value}</dd>
-    </div>
-  );
-}
-
 export function Contact() {
   const phone = company.phone ?? company.whatsapp;
   const address = company.addressLines?.map((line, i, all) => {
@@ -39,7 +31,7 @@ export function Contact() {
   return (
     <Section id="contact" titleId="contact-title" tone="white">
       <div className="grid items-stretch gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-6">
+        <Rise from={40} exit={-16} className="lg:col-span-6">
           <p className="flex items-center gap-4 font-mono text-xs font-bold tracking-[0.2em] text-signal uppercase">
             Contact Munna United
             <span className="h-0.5 w-10 bg-signal" aria-hidden="true" />
@@ -81,9 +73,10 @@ export function Contact() {
               <p className="text-[15px] text-foreground/70">Keep your cylinder size, quantity and delivery location ready.</p>
             </div>
           </div>
-        </div>
+        </Rise>
 
-        <div className="flex flex-col overflow-hidden rounded-2xl bg-[#012a52] text-white lg:col-span-6">
+        <Rise from={96} exit={-28} className="flex lg:col-span-6">
+        <div className="flex w-full flex-col overflow-hidden rounded-2xl bg-[#012a52] text-white">
           <div className="px-8 pt-10 pb-8 sm:px-10">
             <MapPin className="size-10 fill-signal text-signal" aria-hidden="true" />
             <h3 className="mt-3 text-3xl font-extrabold text-white sm:text-4xl">Visit our registered office</h3>
@@ -118,19 +111,10 @@ export function Contact() {
             className="mt-auto block h-auto w-full"
           />
         </div>
+        </Rise>
       </div>
 
-      <div className="mt-10 rounded-2xl bg-[#e8f1fc] px-6 py-8 sm:px-8">
-        <p className="font-mono text-xs font-semibold tracking-[0.2em] text-foreground/60 uppercase">Registered business details</p>
-        <p className="mt-3 text-2xl font-extrabold text-primary sm:text-3xl">{company.legalName}</p>
-        <dl className="mt-6 grid gap-6 sm:grid-cols-[auto_1px_auto] sm:justify-start sm:gap-10">
-          {company.cin && <Detail label="CIN" value={company.cin} />}
-          {company.cin && company.gstin && <div className="hidden bg-line sm:block" aria-hidden="true" />}
-          {company.gstin && <Detail label="GSTIN" value={company.gstin} />}
-        </dl>
-      </div>
-
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
         <p className="flex items-center gap-3 font-bold text-primary">
           <Store className="size-6 text-signal" aria-hidden="true" /> Commercial supply only
         </p>

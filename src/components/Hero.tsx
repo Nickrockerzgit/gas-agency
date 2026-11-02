@@ -6,7 +6,8 @@ import { company, emergencyHelpline } from "@/data/company";
 import { publishedProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 import { prefersReducedMotion } from "@/lib/smoothScroll";
-import { CallButton, LinkButton } from "./ContactAction";
+import { LinkButton } from "./ContactAction";
+import { PlayBadge } from "./PlayBadge";
 import { Container } from "./Section";
 
 function Fact({ label, value, signal }: { label: string; value: string; signal?: boolean }) {
@@ -71,8 +72,13 @@ export function Hero() {
             Explore cylinder options for your commercial kitchen{area}. Contact our team for availability, applicable rates and supply enquiries.
           </p>
           <div className="flex flex-col items-stretch gap-4 pt-2 sm:flex-row sm:items-center">
-            <CallButton size="lg" className="shadow-md" />
-            <LinkButton href="#cylinders" variant="outline" size="lg">
+            <PlayBadge className="justify-center shadow-md" />
+            <LinkButton
+              href="#cylinders"
+              variant="outline"
+              size="lg"
+              className="transition-colors hover:border-signal hover:bg-signal hover:text-white"
+            >
               Explore Cylinders <ArrowDown />
             </LinkButton>
           </div>

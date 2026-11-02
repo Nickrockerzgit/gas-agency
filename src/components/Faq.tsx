@@ -1,5 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { faqs } from "@/data/faqs";
+import { Rise } from "./Rise";
 import { Section, SectionHeader } from "./Section";
 
 export function Faq() {
@@ -12,7 +13,8 @@ export function Faq() {
         title="Frequently Asked Questions"
         description="Clear guidelines on non-domestic cylinder booking, billing, and distribution."
       />
-      <Accordion type="single" collapsible className="mx-auto max-w-2xl space-y-2">
+      <Rise from={44} exit={-18} className="mx-auto max-w-2xl">
+      <Accordion type="single" collapsible className="space-y-2">
         {faqs.map((f, i) => (
           <AccordionItem key={f.q} value={`q${i}`} className="rounded-lg border border-line bg-white px-4 shadow-sm last:border-b">
             <AccordionTrigger indicator="plus" className="min-h-11 items-center py-2.5 text-[15px] font-bold text-primary hover:no-underline">
@@ -25,6 +27,7 @@ export function Faq() {
           </AccordionItem>
         ))}
       </Accordion>
+      </Rise>
     </Section>
   );
 }

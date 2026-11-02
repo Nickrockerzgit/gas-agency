@@ -1,5 +1,6 @@
 import { ArrowRight, BedDouble, Building2, ChefHat, CookingPot, Utensils } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Rise, stair } from "./Rise";
 import { Section } from "./Section";
 
 const customers = [
@@ -78,29 +79,42 @@ const steps = [
 export function Customers() {
   return (
     <Section tone="navy" titleId="who-title">
-      <div className="mb-10 max-w-3xl">
+      <Rise from={34} exit={-14} className="mb-10 max-w-3xl">
         <p className="font-mono text-xs font-bold tracking-widest text-[#ff8a9a] uppercase">Institutional Commercial Clients</p>
         <h2 id="who-title" className="mt-1 text-3xl font-bold text-white sm:text-4xl">
           For commercial kitchens of every scale
         </h2>
         <p className="mt-3 text-base text-white/80">Reliable fuel distribution architecture tailored to high-output commercial establishments.</p>
-      </div>
+      </Rise>
       <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-        {customers.map(({ icon: Icon, t, d, primary }) => (
-          <li key={t}>
-            <Card className="h-full justify-between gap-4 border-white/15 bg-white/5 p-5 text-white">
-              <div className="space-y-2">
-                <span className="grid size-10 place-items-center rounded-lg bg-white/10" aria-hidden="true">
-                  <Icon className="size-5 text-white" />
+        {customers.map(({ icon: Icon, t, d, primary }, i) => (
+          <Rise key={t} as="li" {...stair(i)}>
+            <Card className="group relative h-full justify-between gap-4 overflow-hidden border-white/15 bg-white/5 p-5 text-white transition-all duration-300 ease-out hover:-translate-y-2 hover:border-white/40 hover:bg-white/10 hover:shadow-[0_22px_40px_-14px_rgba(200,16,46,0.55)]">
+              {/* Red bar draws across the top on hover. */}
+              <span
+                className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-signal transition-transform duration-500 ease-out group-hover:scale-x-100"
+                aria-hidden="true"
+              />
+              {/* Light sweep passes over the card on hover. */}
+              <span
+                className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[420%]"
+                aria-hidden="true"
+              />
+              <div className="relative space-y-2">
+                <span
+                  className="grid size-10 place-items-center rounded-lg bg-white/10 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-6 group-hover:bg-signal"
+                  aria-hidden="true"
+                >
+                  <Icon className="size-5 text-white motion-safe:animate-[card-float_3.6s_ease-in-out_infinite]" style={{ animationDelay: `${i * 0.4}s` }} />
                 </span>
                 <h3 className="pt-2 text-lg font-bold text-white">{t}</h3>
-                <p className="text-[13px] leading-5 text-white/75">{d}</p>
+                <p className="text-[13px] leading-5 text-white/75 transition-colors duration-300 group-hover:text-white/90">{d}</p>
               </div>
-              <p className="border-t border-white/10 pt-3 font-mono text-[10px] font-semibold tracking-wider text-white/60 uppercase">
+              <p className="relative border-t border-white/10 pt-3 font-mono text-[10px] font-semibold tracking-wider text-white/60 uppercase transition-colors duration-300 group-hover:border-white/30 group-hover:text-[#ff8a9a]">
                 Primary: {primary}
               </p>
             </Card>
-          </li>
+          </Rise>
         ))}
       </ul>
     </Section>
@@ -110,7 +124,7 @@ export function Customers() {
 export function Steps() {
   return (
     <Section titleId="how-title">
-      <div className="mb-12 max-w-3xl">
+      <Rise from={34} exit={-14} className="mb-12 max-w-3xl">
         <p className="flex items-center gap-4 font-mono text-sm font-bold tracking-[0.22em] text-signal uppercase">
           Process <span className="h-0.5 w-16 bg-signal" aria-hidden="true" />
         </p>
@@ -118,9 +132,10 @@ export function Steps() {
           How to enquire
         </h2>
         <p className="mt-3 text-lg text-foreground/75">Three simple steps to discuss your supply needs.</p>
-      </div>
+      </Rise>
 
-      <ol className="relative grid gap-12 md:grid-cols-3 md:gap-0">
+      <Rise from={44} exit={-18}>
+        <ol className="relative grid gap-12 md:grid-cols-3 md:gap-0">
         {/* Timeline: navy line with red segments, ending in an arrow. */}
         <div
           className="absolute top-7 right-[3%] left-[16.66%] hidden h-0.5 md:block"
@@ -147,7 +162,8 @@ export function Steps() {
             <p className="mt-2 max-w-[17rem] text-base text-foreground/70">{d}</p>
           </li>
         ))}
-      </ol>
+        </ol>
+      </Rise>
     </Section>
   );
 }

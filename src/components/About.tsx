@@ -1,6 +1,7 @@
 import { CircleCheck, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { company } from "@/data/company";
+import { Rise } from "./Rise";
 import { Section } from "./Section";
 
 const points = [
@@ -13,7 +14,7 @@ export function About() {
   return (
     <Section id="about" titleId="about-title" tone="tonal">
       <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:order-2 lg:col-span-6">
+        <Rise from={40} exit={-16} className="lg:order-2 lg:col-span-6">
           <p className="font-mono text-xs font-bold tracking-widest text-signal uppercase">About Us</p>
           <h2 id="about-title" className="mt-1 text-3xl font-bold sm:text-4xl">
             About {company.legalName.replace(" Private Limited", " Pvt. Ltd.")}
@@ -49,9 +50,9 @@ export function About() {
               </Badge>
             )}
           </div>
-        </div>
+        </Rise>
 
-        <div className="lg:order-1 lg:col-span-6">
+        <Rise from={90} exit={-30} tilt={-1.4} className="lg:order-1 lg:col-span-6">
           <img
             src="/img/about-storefront.webp"
             alt="Munna United commercial LPG storefront with cylinders stored beside the entrance"
@@ -60,7 +61,7 @@ export function About() {
             loading="lazy"
             className="mx-auto h-auto w-full max-w-[540px] lg:mr-auto"
           />
-        </div>
+        </Rise>
       </div>
     </Section>
   );
